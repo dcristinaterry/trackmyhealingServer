@@ -18,6 +18,8 @@ module.exports = {
     },
     // should create the user
     create: function (req, res) {
+        console.log("create got called" , req.body);
+        // return res.send("ok");
         db.User.create(req.body)
             .then(dbModelUser => res.json(dbModelUser))
             .catch(err => res.status(422).json(err));

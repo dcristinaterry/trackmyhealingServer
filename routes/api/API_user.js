@@ -37,5 +37,9 @@ router
   .put(userController.update)
   
 
+ router
+  .route("/register") 
+  .post(userController.create)
+
 
 module.exports = router;
