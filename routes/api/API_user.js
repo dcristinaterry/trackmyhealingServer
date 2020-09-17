@@ -3,12 +3,12 @@
 const router = require("express").Router();
 const userController = require("../../controllers/userController");
 const authenticatedUser = require("../../config/authenticatedUser.js");
-const passport = require("../../config/passport");
+const passport = require("../../config/passport.config");
 
 // matches with "/api/user/"
 router
   .route("/")
-  .put(passport.authenticate("local"), function (req, res) {
+  .post(passport.authenticate("local"), function (req, res) {
     // console.log({user:req.user})
     let user = { ...req.user.dataValues, password: "youWish" }
     res.json(user)
@@ -31,10 +31,10 @@ router
     res.sendFile('/');
 });
 // Matches with "/api/user/:id"
-router
-  .route("/info/:id", authenticatedUser)
-  .get(userController.findUser)
-  .put(userController.update)
+// router
+//   .route("/info/:id", authenticatedUser)
+//   .get(userController.findUser)
+//   .put(userController.update)
   
 
  router

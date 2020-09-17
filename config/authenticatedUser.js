@@ -21,6 +21,8 @@ module.exports = function (req, res, next) {
         console.log("user exists")
         return next();
       }
+
+
       // we have user login
       // if (req.user.role === roles.Administrator) {
       //   return res.redirect("/admin")
