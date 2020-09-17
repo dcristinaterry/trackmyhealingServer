@@ -1,17 +1,10 @@
 const express = require("express");
 
+module.exports = app => {
 
-require('dotenv').config()
-
-module.exports = app =>{
-
-
-// Define middleware here
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-
-
-// Serve up static assets (usually on heroku)
-// setting up cookies
+  app.use(express.urlencoded({
+    extended: false
+  }));
+  app.use(express.json());
 
 }
