@@ -1,26 +1,41 @@
 const express = require('express');
 const passport = require("passport");
-const bcrypt =require('bcryptjs')
 
 const authRoutes = express.Router();
+const authenticatedUser = require("../../config/authenticatedUser");
 const userController = require("../../controllers/userController");
 
+
 authRoutes
-  .post("/signup", passport.authenticate("local"), function (req, res) {
-    // console.log({user:req.user})
-    let user = { ...req.user.dataValues, password: "youWish" }
+  .route("/register")
+  .post(userController.create)
+
+authRoutes
+  .route("/login")
+  .post(passport.authenticate("local"),(req, res)=> {
+    let user = {...req.user.dataValues,password: "youWish"}
     res.json(user)
     console.log("login successful!")
   })
 
+ authRoutes
+  .route('/logout')
+  .get((req, res) =>{
+    console.log("user logged out")
+    req.logout();
+    res.send("User logged out")
+    // res.sendFile('/');?????
+});
 
+authRoutes
+  .route("/loggedin")
+  .get(authenticatedUser,function (req, res) {
+    console.log("verifying user")
+    res.json(req.user)
+  })
+  
 // authRoutes
-//   .post("/login",passport.authenticate('local'), function (req, res) {
-//     console.log("authenticating user")
-//     console.log({user:req.user})
-//     let user = { ...req.user.dataValues, password: "youWish" }
-//     res.json(user)
-   
-//   })
+// .route('/remove/:userid')
+// .post(userController.remove);
 
-  module.exports = authRoutes;
+module.exports = authRoutes;
