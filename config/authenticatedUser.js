@@ -29,8 +29,9 @@ module.exports = function (req, res, next) {
       // } else {
       // }
     }else{
-      console.log("user doesn't exists")
-      return res.redirect("/");
+      console.log("User doesn't exists or is not logged in");
+      res.send("User doesn't exists or is not logged in");
+      // return res.redirect("/");???
     }
     // If the user isn't logged in, redirect them to the login page
     

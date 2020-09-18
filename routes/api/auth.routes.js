@@ -15,22 +15,23 @@ authRoutes
   .post(passport.authenticate("local"),(req, res)=> {
     let user = {...req.user.dataValues,password: "youWish"}
     res.json(user)
-    console.log("login successful!")
+    console.log(`User ${user.email_address} is logged in!`)
   })
 
  authRoutes
   .route('/logout')
   .get((req, res) =>{
-    console.log("user logged out")
+    const response=req.user? `User ${req.user.email_address} is logged out` :`No users in sessions`
+    console.log(response)
     req.logout();
-    res.send("User logged out")
+    res.send(response)
     // res.sendFile('/');?????
 });
 
 authRoutes
   .route("/loggedin")
   .get(authenticatedUser,function (req, res) {
-    console.log("verifying user")
+    console.log(`User ${req.user.email_address} is already logged in`)
     res.json(req.user)
   })
   
