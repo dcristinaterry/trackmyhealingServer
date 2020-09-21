@@ -20,7 +20,7 @@ authRoutes
 
  authRoutes
   .route('/logout')
-  .get((req, res) =>{
+  .get((req, res) =>{gi
     const response=req.user? `User ${req.user.email_address} is logged out` :`No users in sessions`
     console.log(response)
     req.logout();
