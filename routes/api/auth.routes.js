@@ -1,10 +1,8 @@
 const express = require('express');
 const passport = require("passport");
-
 const authRoutes = express.Router();
 const authenticatedUser = require("../../config/authenticatedUser");
 const userController = require("../../controllers/userController");
-
 
 authRoutes
   .route("/register")
@@ -20,7 +18,7 @@ authRoutes
 
  authRoutes
   .route('/logout')
-  .get((req, res) =>{gi
+  .get((req, res) =>{
     const response=req.user? `User ${req.user.email_address} is logged out` :`No users in sessions`
     console.log(response)
     req.logout();
@@ -35,8 +33,23 @@ authRoutes
     res.json(req.user)
   })
   
-// authRoutes
-// .route('/remove/:userid')
-// .post(userController.remove);
+authRoutes
+.route('/google')
+.get(passport.authenticate('google', {
+  scope:['https://www.googleapis.com/auth/userinfo.profile','https://www.googleapis.com/auth/userinfo.profile']
+}
+))
+
+authRoutes
+.get('/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
+
+  
+authRoutes
+.route('/remove/:userid')
+.post(userController.remove);
 
 module.exports = authRoutes;
