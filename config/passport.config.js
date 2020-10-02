@@ -1,7 +1,11 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+<<<<<<< HEAD
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+=======
 const GoogleStrategy = require('passport-google-oauth').OAuthStrategy;
 const keys =require("./keys")
+>>>>>>> dfc754db3823bdf32b97021afa862da3ee8949fd
 
 const db = require("../models");
 
@@ -33,30 +37,38 @@ passport.use(new LocalStrategy(
 
 
 
-passport.use(new GoogleStrategy({
-  consumerKey: "833667121511-bfhhs616kln3bucu245btkd9l5qvr2c6.apps.googleusercontent.com",
-  consumerSecret: "-AWqWKtmKuZr1y-S-AL9aplz",
-  callbackURL: "/api/auth/google/callback"
-},
-function(token, tokenSecret, profile, done) {
-  
-  console.log(profile);
-    // db.User.findOne(
-    //  {where:{
-    //   googleId: profile.id
-    //  }}
-      
-      
-    //   )
-  
-  
-  db.User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return done(err, user);
-    });
-}   
-)
-);
 
+passport.use(
+  new GoogleStrategy({
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "/api/auth/google/callback"
+    },
+    (accessToken, refreshToken, profile, done) => {
+      // to see the structure of the data in received response:
+      console.log("Google account details:", profile);
+
+      User.findOne({
+          googleID: profile.id
+        })
+        .then(user => {
+          if (user) {
+            done(null, user);
+            return;
+          }
+
+          User.create({
+              googleID: profile.id
+            })
+            .then(newUser => {
+              done(null, newUser);
+            })
+            .catch(err => done(err)); // closes User.create()
+        })
+        .catch(err => done(err)); // closes User.findOne()
+    }
+  )
+);
 
 
 passport.serializeUser(function (user, done) {
