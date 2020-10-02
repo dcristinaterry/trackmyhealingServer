@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "devStart": "nodemon app.js",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -33,9 +34,17 @@
     "mysql2": "^2.1.0",
     "nodemon": "^2.0.4",
     "passport": "^0.4.1",
+<<<<<<< HEAD
     "passport-facebook": "^3.0.0",
     "passport-google-oauth": "^2.0.0",
     "passport-google-oauth20": "^2.0.0",
+=======
+<<<<<<< HEAD
+    "passport-google-oauth20": "^2.0.0",
+=======
+    "passport-google-oauth": "^2.0.0",
+>>>>>>> dfc754db3823bdf32b97021afa862da3ee8949fd
+>>>>>>> 903c0f0bae47456e305293344c228b9f799f32a8
     "passport-local": "^1.0.0",
     "sequelize": "^6.3.5"
   }
