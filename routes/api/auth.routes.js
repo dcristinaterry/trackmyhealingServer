@@ -3,6 +3,7 @@ const passport = require("passport");
 const authRoutes = express.Router();
 const authenticatedUser = require("../../config/authenticatedUser");
 const userController = require("../../controllers/userController");
+const { Strategy } = require('passport');
 
 authRoutes
   .route("/register")
@@ -36,18 +37,26 @@ authRoutes
 authRoutes
 .route('/google')
 .get(passport.authenticate('google', {
-  scope:['https://www.googleapis.com/auth/userinfo.profile','https://www.googleapis.com/auth/userinfo.profile']
+  scope:[
+    'profile',
+    'email',
+    // 'https://www.googleapis.com/auth/userinfo.profile',
+    // 'https://www.googleapis.com/auth/userinfo.profile'
+  ]
 }
 ))
 
 authRoutes
-.get('/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
+.route('/google/callback')
+.get(passport.authenticate('google', { 
+  successRedirect:'/home',
+  failureRedirect: '/' }),
+  // function(req, res) {
+  //   res.redirect('/');
+  // }
+  );
 
-  
+
 authRoutes
 .route('/remove/:userid')
 .post(userController.remove);
