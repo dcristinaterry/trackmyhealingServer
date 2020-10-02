@@ -20,7 +20,7 @@ authRoutes
 
  authRoutes
   .route('/logout')
-  .get((req, res) =>{gi
+  .get((req, res) =>{
     const response=req.user? `User ${req.user.email_address} is logged out` :`No users in sessions`
     console.log(response)
     req.logout();
@@ -38,5 +38,30 @@ authRoutes
 // authRoutes
 // .route('/remove/:userid')
 // .post(userController.remove);
+authRoutes
+.route( "/google")
+.get(passport.authenticate("google", {
+    scope: [
+      'profile','email'
+      // "https://www.googleapis.com/auth/userinfo.profile",
+      // "https://www.googleapis.com/auth/userinfo.email"
+    ]
+  }),()=>console.log("sale")
+);
 
+authRoutes
+.route("/google/callback")
+.get(passport.authenticate("google", {
+    successRedirect: "/home",   
+    failureRedirect: "/"        // here you would redirect to the login page using traditional login approach
+  }),(req,res)=>console.log("exiting")
+);
+
+
+// app.get('/auth/google/callback', 
+//   passport.authenticate('google', { failureRedirect: '/login' }),
+//   function(req, res) {
+//     // Successful authentication, redirect home.
+//     res.redirect('/');
+//   });
 module.exports = authRoutes;
