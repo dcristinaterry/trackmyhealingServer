@@ -1,10 +1,8 @@
 const express = require('express');
 const passport = require("passport");
-
 const authRoutes = express.Router();
 const authenticatedUser = require("../../config/authenticatedUser");
 const userController = require("../../controllers/userController");
-
 
 authRoutes
   .route("/register")
@@ -35,6 +33,7 @@ authRoutes
     res.json(req.user)
   })
   
+<<<<<<< HEAD
 // authRoutes
 // .route('/remove/:userid')
 // .post(userController.remove);
@@ -57,6 +56,26 @@ authRoutes
   }),(req,res)=>console.log("exiting")
 );
 
+=======
+authRoutes
+.route('/google')
+.get(passport.authenticate('google', {
+  scope:['https://www.googleapis.com/auth/userinfo.profile','https://www.googleapis.com/auth/userinfo.profile']
+}
+))
+
+authRoutes
+.get('/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
+
+  
+authRoutes
+.route('/remove/:userid')
+.post(userController.remove);
+>>>>>>> dfc754db3823bdf32b97021afa862da3ee8949fd
 
 // app.get('/auth/google/callback', 
 //   passport.authenticate('google', { failureRedirect: '/login' }),

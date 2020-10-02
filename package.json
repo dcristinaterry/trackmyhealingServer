@@ -34,7 +34,11 @@
     "mysql2": "^2.1.0",
     "nodemon": "^2.0.4",
     "passport": "^0.4.1",
+<<<<<<< HEAD
     "passport-google-oauth20": "^2.0.0",
+=======
+    "passport-google-oauth": "^2.0.0",
+>>>>>>> dfc754db3823bdf32b97021afa862da3ee8949fd
     "passport-local": "^1.0.0",
     "sequelize": "^6.3.5"
   }
