@@ -12,9 +12,10 @@ authRoutes
 authRoutes
   .route("/login")
   .post(passport.authenticate("local"),(req, res)=> {
-    let user = {...req.user.dataValues,password: "youWish"}
+    let user = {...req.user.dataValues}
     res.json(user)
     console.log(`User ${user.email_address} is logged in!`)
+   return res.redirect('/home')
   })
 
  authRoutes
@@ -34,32 +35,29 @@ authRoutes
     res.json(req.user)
   })
   
-authRoutes
-.route('/google')
-.get(passport.authenticate('google', {
-  scope:[
-    'profile',
-    'email',
-    // 'https://www.googleapis.com/auth/userinfo.profile',
-    // 'https://www.googleapis.com/auth/userinfo.profile'
-  ]
-}
-))
+// authRoutes
+// .route('/remove/:userid')
+// .post(userController.remove);
 
 authRoutes
-.route('/google/callback')
-.get(passport.authenticate('google', { 
-  successRedirect:'/home',
-  failureRedirect: '/' }),
-  // function(req, res) {
-  //   res.redirect('/');
-  // }
-  );
-
+.route( "/google")
+.get(passport.authenticate("google", {
+    scope: [
+      'profile','email'
+      // "https://www.googleapis.com/auth/userinfo.profile",
+      // "https://www.googleapis.com/auth/userinfo.email"
+    ]
+  })
+);
 
 authRoutes
-.route('/remove/:userid')
-.post(userController.remove);
+.route("/google/callback")
+.get(passport.authenticate("google", {
+    successRedirect: "/home",   
+    failureRedirect: "/"        // here you would redirect to the login page using traditional login approach
+  })
+);
+
 
 // app.get('/auth/google/callback', 
 //   passport.authenticate('google', { failureRedirect: '/login' }),
